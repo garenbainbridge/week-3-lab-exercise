@@ -47,7 +47,7 @@ These boxplots suggest a relationship between social media platform and daily us
 
 Does the relationship between social media usage and mental health vary by the age of the student?
 
-A scatterplot would best visualize the relationship. The x-axis would represent hours of social media usage, and the y-axis would represent mental health score. The feature used for age, the third variable, is facet_wrap() to create separate scatterplots for each age.
+A scatterplot would best visualize the relationship. The x-axis would represent average daily social media usage, and the y-axis would represent mental health score. The feature used for age, the third variable, is facet_wrap() to create separate scatterplots for each age.
 
 ```{r scatterplot}
 socialMedia %>%
@@ -57,4 +57,32 @@ socialMedia %>%
   facet_wrap(~Age)
 ```
 
-There is a negative correlation between hours of social media usage and mental health score.
+There is a negative correlation between average daily social media usage and mental health score.
+
+NEXT STEPS SECTION
+
+```{r raster plot}
+socialMedia %>%
+ggplot(aes(x = Avg_Daily_Usage_Hours,
+                        y = Mental_Health_Score,
+                        fill = Age)) +
+  geom_raster(hjust = 0.5, vjust = 0.5, interpolate = FALSE) +
+  labs(title = "Raster Plot of Social Media Usage vs Mental Health, Colored by Age",
+       x = "Average Daily Usage (Hours)",
+       y = "Mental Health Score",
+       fill = "Age")
+```
+Does the relationship between average daily social media usage and addicted score vary depending on how many conflicts they have over social media?
+
+```{r raster plot}
+socialMedia %>%
+ggplot(aes(x = Avg_Daily_Usage_Hours,
+                        y = Addicted_Score,
+                        fill = Conflicts_Over_Social_Media)) +
+  geom_raster(hjust = 0.5, vjust = 0.5, interpolate = FALSE) +
+  labs(title = "Raster Plot: Social Media Usage vs Feelings of Addiction, Colored by Number of Social Media Conflicts",
+       x = "Average Daily Usage (Hours)",
+       y = "Addicted Score",
+       fill = "Social Media Conflicts")
+```
+The raster plot suggests that students who have a higher social media usage also feel more addicted and are more prone to social media conflicts. I chose a raster plot to visualize this relationship as it allows me to display three different variables in a 2D space. The x and y axes represent the relationship between social media usage and feelings of addiction, while the color adds a third variable, indicating social media conflicts overlap with the x-y relationship.
