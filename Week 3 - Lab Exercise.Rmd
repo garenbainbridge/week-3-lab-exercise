@@ -1,0 +1,60 @@
+---
+title: "Week 3 - Lab Exercise"
+author: "Garen Bainbridge"
+date: "2025-09-03"
+output: html_document
+---
+```{r load tidyverse packages}
+library(tidyverse)
+```
+
+```{r}
+socialMedia <- read_csv("socialMediaAddiction.csv")
+glimpse(socialMedia)
+```
+```{r histogram_age}
+
+socialMedia %>%
+  ggplot(mapping = aes(x = Age)) +
+  geom_histogram()
+```
+The distribution of the age variable is multimodal with 4 distinct peaks and not symmetric. I hypothesize that most of the individuals in this dataset are college students, which explains the clustering of peaks around the ages 19-22 in the histogram.
+```{r histogram_Avg_Daily_Usage_Hours}
+socialMedia %>%
+  ggplot(mapping = aes(x = Avg_Daily_Usage_Hours)) +
+  geom_histogram()
+```
+The distribution of the Avg_Daily_Usage_Hours variable is unimodal with 1 distinct peak and not symmetric. I hypothesize that the peak and cluster between 4-6 hours is due to the participants being college students that use social media very often.
+
+To visualize the relationship between students who have higher social media usage and getting fewer hours of sleep, a scatterplot is the best type of graph to use. The variable on the x-axis is Avg_Daily_Usage_Hours, and the variable on the y-axis Sleep_Hours_Per_Night.
+
+```{r scatterplot}
+socialMedia %>%
+  ggplot(mapping = aes(x = Avg_Daily_Usage_Hours, y = Sleep_Hours_Per_Night))+
+  geom_point()
+```
+Social media usage and sleep seem to have a clear negative correlation.
+
+A boxplot would be best to visualize the relationship between longer social media usage with specific apps. The x-axis would represent the different social media apps being analyzed, and the y-axis would represent the average daily usage hours.
+
+```{r boxplot}
+socialMedia %>%
+  ggplot(mapping = aes(x = Most_Used_Platform, y = Avg_Daily_Usage_Hours)) + 
+    geom_boxplot()
+```
+
+These boxplots suggest a relationship between social media platform and daily usage hours with Facebook, Instagram, Tiktok, and WhatsApp having the highest average daily usage hours.
+
+Does the relationship between social media usage and mental health vary by the age of the student?
+
+A scatterplot would best visualize the relationship. The x-axis would represent hours of social media usage, and the y-axis would represent mental health score. The feature used for age, the third variable, is facet_wrap() to create separate scatterplots for each age.
+
+```{r scatterplot}
+socialMedia %>%
+  ggplot(mapping = aes(x = Avg_Daily_Usage_Hours, y = Mental_Health_Score))+
+  geom_point()+
+  geom_smooth(method ="lm")+
+  facet_wrap(~Age)
+```
+
+There is a negative correlation between hours of social media usage and mental health score.
